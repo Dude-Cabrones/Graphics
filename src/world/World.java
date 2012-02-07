@@ -45,6 +45,11 @@ public class World extends JPanel{
 	// pixel memory map
 	int[] memory;
 	
+	// other
+	// TODO: maybe in constructor
+	private int near = 1;
+	private int far = 50;
+	
 	public World(MyPoint3D viewer, double zViewPlane, double leftViewPlane, 
 			double rightViewPlane, double bottomViewPlane, double topViewPlane, 
 			int widthPix, int heightPix, Color bgColor) {
@@ -115,7 +120,7 @@ public class World extends JPanel{
 				// set pixel in buffer
 				if(maxDist < Double.POSITIVE_INFINITY) {
 					// we got an intersection
-					memory[y+x*height] = c.getRGB();
+					memory[y+x*height] = c.getRGB() - (int)Math.min(Math.max(0,maxDist - near) / ( near - far ),1.0); // c.getRGB();
 					int pix = y+x*height;
 					System.out.println("At Pos "+pix+" : "+memory[y+x*height]);
 				} else {
